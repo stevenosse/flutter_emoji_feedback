@@ -1,6 +1,6 @@
 name: flutter_emoji_feedback
 description: A flutter widget for rating user's mood
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/stevenosse/flutter_emoji_feedback
 
 environment:

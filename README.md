@@ -11,7 +11,10 @@ A flutter widget for rating user's mood
 
 ## Getting started
 
-Install from 
+Install from pub
+```shell
+$ flutter pub add flutter_emoji_feedback
+```
 
 ## Usage
 
