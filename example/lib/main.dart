@@ -31,6 +31,7 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               EmojiFeedback(
+                customLabels: const ['Strange', 'Bad', 'Ugly', 'Damaged', 'Love'],
                 onChanged: (value) {
                   print(value);
                 },

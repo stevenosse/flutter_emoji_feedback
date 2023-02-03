@@ -1,3 +1,10 @@
+## 0.1.0
+- Add customization for labels
+- Add customization for inactive elements blend color
+- Add customization for inactive elements scale factor
+- Add customization for elements size
+- Add customization for scale animation curve
+
 ## 0.0.2
 - Update docs
 
