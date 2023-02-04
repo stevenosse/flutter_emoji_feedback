@@ -1,3 +1,7 @@
+## 0.1.1
+- Update docs
+- Add more examples
+
 ## 0.1.0
 - Add customization for labels
 - Add customization for inactive elements blend color

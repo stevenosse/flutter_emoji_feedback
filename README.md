@@ -2,7 +2,7 @@
 A flutter widget for rating user's mood
 
 <div>
-    <a title="pub.dev" href="https://pub.dartlang.org/packages/fluent_ui" >
+    <a title="pub.dev" href="https://pub.dartlang.org/packages/flutter_emoji_feedback" >
       <img src="https://img.shields.io/pub/v/flutter_emoji_feedback.svg?style=flat-square&include_prereleases&color=00C853" />
     </a>
     <a title="GitHub License" href="https://github.com/stevenosse/flutter_emoji_feedback/blob/master/LICENSE">
@@ -35,11 +35,16 @@ import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
 
 ```dart
 EmojiFeedback(
-    onChanged: (value) {
-        print(value);
-    },
+  animDuration: const Duration(milliseconds: 300),
+  curve: Curves.bounceIn,
+  inactiveElementScale: .5,
+  onChanged: (value) {
+    print(value);
+  },
 )
 ```
 
 # Contribute
-FFeel free to [file an issue](https://github.com/stevenosse/flutter_emoji_feedback/issues/new) if you find a problem or [make pull requests](https://github.com/stevenosse/flutter_emoji_feedback/pulls).
+Feel free to [file an issue](https://github.com/stevenosse/flutter_emoji_feedback/issues/new)
+
+If you find a problem or [make pull requests](https://github.com/stevenosse/flutter_emoji_feedback/pulls).

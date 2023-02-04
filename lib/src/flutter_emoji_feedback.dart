@@ -95,8 +95,8 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
       builder: (context, constraints) {
         const double spaceBetween = 10.0;
         final double inactiveElementScale = widget.inactiveElementScale ?? .7;
-        final double elementSize =
-            widget.elementSize ?? (constraints.maxWidth / widget.emojiPreset.length) - spaceBetween;
+        final double elementSize = widget.elementSize ??
+            (constraints.maxWidth / widget.emojiPreset.length) - spaceBetween;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -126,7 +126,8 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
                                 },
                                 child: Container(
                                   foregroundDecoration: BoxDecoration(
-                                    color: widget.inactiveElementBlendColor ?? Colors.grey,
+                                    color: widget.inactiveElementBlendColor ??
+                                        Colors.grey,
                                     backgroundBlendMode: BlendMode.saturation,
                                   ),
                                   child: child,
@@ -135,7 +136,8 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
                         if (widget.showLabel) ...[
                           const SizedBox(height: 5.0),
                           Text(
-                            widget.customLabels?.elementAt(index) ?? element.label,
+                            widget.customLabels?.elementAt(index) ??
+                                element.label,
                             style: widget.labelTextStyle,
                           ),
                         ]
