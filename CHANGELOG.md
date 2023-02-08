@@ -1,3 +1,6 @@
+## 0.1.2
+- Fix error when`very good` emoji in classic preset is loaded on web clients
+
 ## 0.1.1
 - Update docs
 - Add more examples

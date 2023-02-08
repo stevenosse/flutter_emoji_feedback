@@ -1,5 +1,5 @@
 # flutter_emoji_feedback
-A flutter widget for rating user's mood
+A fully customizable widget to receive feedback from your users. Can be used to get user's mood or evaluate experience (and more !)
 
 <div>
     <a title="pub.dev" href="https://pub.dartlang.org/packages/flutter_emoji_feedback" >

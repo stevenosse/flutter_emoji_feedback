@@ -5,7 +5,7 @@
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import
+// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal
 
 import 'package:flutter/widgets.dart';
 
@@ -16,7 +16,16 @@ class Assets {
   static const String classicBad = 'assets/classic_bad.svg';
   static const String classicGood = 'assets/classic_good.svg';
   static const String classicTerrible = 'assets/classic_terrible.svg';
-  static const String classicVeryGood = 'assets/classic_very good.svg';
+  static const String classicVeryGood = 'assets/classic_very_good.svg';
+
+  /// List of all assets
+  List<String> get values => [
+        classicAwesome,
+        classicBad,
+        classicGood,
+        classicTerrible,
+        classicVeryGood
+      ];
 }
 
 class AssetGenImage {
@@ -76,6 +85,8 @@ class AssetGenImage {
       cacheHeight: cacheHeight,
     );
   }
+
+  ImageProvider provider() => AssetImage(_assetName);
 
   String get path => _assetName;
 
