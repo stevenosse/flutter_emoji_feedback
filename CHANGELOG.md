@@ -1,3 +1,9 @@
+## 0.2.0
+- +3 new emoji presets (flat, hand drawn, 3d)
+- Upgrade flutter_svg to `^2.0.10+1`
+- You can now customize the space between elements with `spaceBetweenItems` property
+- You can now customize the label padding with `labelPadding` property
+
 ## 0.1.2
 - Fix error when`very good` emoji in classic preset is loaded on web clients
 

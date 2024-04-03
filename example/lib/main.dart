@@ -31,8 +31,13 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               EmojiFeedback(
+                emojiPreset: handDrawnEmojiPreset,
+                labelTextStyle: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400),
                 onChanged: (value) {
-                  print(value);
+                  // Show snackbar
+                  ScaffoldMessenger.of(context)
+                    ..clearSnackBars()
+                    ..showSnackBar(SnackBar(content: Text('$value')));
                 },
               )
             ],

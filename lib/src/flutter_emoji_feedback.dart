@@ -7,7 +7,7 @@ typedef EmojiBuilder = Widget Function(int, EmojiModel);
 
 class EmojiFeedback extends StatefulWidget {
   EmojiFeedback({
-    Key? key,
+    super.key,
     this.onChanged,
     this.emojiPreset = classicEmojiPreset,
     this.presetBuilder,
@@ -19,6 +19,8 @@ class EmojiFeedback extends StatefulWidget {
     this.inactiveElementScale,
     this.elementSize,
     this.curve,
+    this.spaceBetweenItems = 10,
+    this.labelPadding = const EdgeInsets.only(top: 5.0),
   })  : assert(emojiPreset.isNotEmpty),
         assert(
           () {
@@ -27,9 +29,8 @@ class EmojiFeedback extends StatefulWidget {
             }
             return true;
           }(),
-          'Please, emojiPreset and customLabels should have the same length',
-        ),
-        super(key: key);
+          'emojiPreset and customLabels should have the same length',
+        );
 
   /// Function called when an item is selected.
   /// Values goes from 1 to `preset.length`
@@ -39,6 +40,11 @@ class EmojiFeedback extends StatefulWidget {
 
   /// List of emojis
   /// Defaults to `classicEmojiPreset`
+  ///
+  /// Available presets: `classicEmojiPreset`, `flatEmojiPreset`, `threeDEmojiPreset`
+  ///
+  /// You can create your own presets with the `EmojiModel` class.
+  /// If you wish to use custom labels, you can use the `customLabels` attribute
   final List<EmojiModel> emojiPreset;
 
   /// Duration of the scale animation
@@ -64,15 +70,28 @@ class EmojiFeedback extends StatefulWidget {
   final Color? inactiveElementBlendColor;
 
   /// Scale factor of inactiveElements
+  /// Range from `0.0` to `1.0`
   /// Defaults to `0.7`
   final double? inactiveElementScale;
 
+  /// Space between items
+  /// Defaults to `10.0`
+  final double spaceBetweenItems;
+
   /// Size of emoji elements
   /// Default value is calculated so each element occupate the same amount of space
+  ///
   /// Formula: `(maxWidth / emojiCount) - spaceBetweenItems`
   final double? elementSize;
 
+  /// Label padding
+  /// Defaults to `EdgeInsets.only(top: 5.0)`
+  final EdgeInsetsGeometry labelPadding;
+
   /// Scale animation curve
+  /// Defaults to `Curves.linear`
+  ///
+  /// See [Curves](https://api.flutter.dev/flutter/animation/Curves-class.html)
   final Curve? curve;
 
   @override
@@ -93,59 +112,59 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        const double spaceBetween = 10.0;
         final double inactiveElementScale = widget.inactiveElementScale ?? .7;
-        final double elementSize = widget.elementSize ??
-            (constraints.maxWidth / widget.emojiPreset.length) - spaceBetween;
+        final double elementSize =
+            widget.elementSize ?? (constraints.maxWidth / widget.emojiPreset.length) - widget.spaceBetweenItems;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.from(
-            widget.emojiPreset.mapIndexed(widget.presetBuilder ??
-                (index, element) {
-                  final isItemActive = activeItemIndex == index;
+          children: [
+            ...widget.emojiPreset.mapIndexed(
+              widget.presetBuilder ??
+                  (index, element) {
+                    final isItemActive = activeItemIndex == index;
 
-                  final child = SvgPicture.asset(
-                    element.src,
-                    width: elementSize,
-                    package: element.package,
-                  );
+                    final child = SvgPicture.asset(
+                      element.src,
+                      width: elementSize,
+                      package: element.package,
+                    );
 
-                  return AnimatedScale(
-                    scale: isItemActive ? 1 : inactiveElementScale,
-                    duration: widget.animDuration,
-                    curve: widget.curve ?? Curves.linear,
-                    child: Column(
-                      children: [
-                        isItemActive
-                            ? child
-                            : GestureDetector(
-                                onTap: () {
-                                  setActiveItem(index);
-                                },
-                                child: Container(
-                                  foregroundDecoration: BoxDecoration(
-                                    color: widget.inactiveElementBlendColor ??
-                                        Colors.grey,
-                                    backgroundBlendMode: BlendMode.saturation,
+                    return AnimatedScale(
+                      scale: isItemActive ? 1 : inactiveElementScale,
+                      duration: widget.animDuration,
+                      curve: widget.curve ?? Curves.linear,
+                      child: Column(
+                        children: [
+                          isItemActive
+                              ? child
+                              : GestureDetector(
+                                  onTap: () {
+                                    setActiveItem(index);
+                                  },
+                                  child: Container(
+                                    foregroundDecoration: BoxDecoration(
+                                      color: widget.inactiveElementBlendColor ?? Colors.grey,
+                                      backgroundBlendMode: BlendMode.saturation,
+                                    ),
+                                    child: child,
                                   ),
-                                  child: child,
                                 ),
+                          if (widget.showLabel)
+                            Padding(
+                              padding: widget.labelPadding,
+                              child: Text(
+                                widget.customLabels?.elementAt(index) ?? element.label,
+                                style: widget.labelTextStyle,
                               ),
-                        if (widget.showLabel) ...[
-                          const SizedBox(height: 5.0),
-                          Text(
-                            widget.customLabels?.elementAt(index) ??
-                                element.label,
-                            style: widget.labelTextStyle,
-                          ),
-                        ]
-                      ],
-                    ),
-                  );
-                }),
-          ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+            ),
+          ],
         );
       },
     );
