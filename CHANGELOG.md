@@ -1,3 +1,6 @@
+## 0.3.0
+- Add `initialRating` property to set the initial rating
+
 ## 0.2.0
 - +3 new emoji presets (flat, hand drawn, 3d)
 - Upgrade flutter_svg to `^2.0.10+1`

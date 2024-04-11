@@ -19,6 +19,7 @@ class EmojiFeedback extends StatefulWidget {
     this.inactiveElementScale,
     this.elementSize,
     this.curve,
+    this.initialRating = 1,
     this.spaceBetweenItems = 10,
     this.labelPadding = const EdgeInsets.only(top: 5.0),
   })  : assert(emojiPreset.isNotEmpty),
@@ -30,7 +31,14 @@ class EmojiFeedback extends StatefulWidget {
             return true;
           }(),
           'emojiPreset and customLabels should have the same length',
-        );
+        ),
+        assert(emojiPreset.length >= initialRating && initialRating > 0,
+            'initialRating should be between 1 and emojiPreset.length');
+
+  /// Initial value
+  ///
+  /// Defaults to `0`
+  final int initialRating;
 
   /// Function called when an item is selected.
   /// Values goes from 1 to `preset.length`
@@ -100,6 +108,12 @@ class EmojiFeedback extends StatefulWidget {
 
 class _EmojiFeedbackState extends State<EmojiFeedback> {
   int? activeItemIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    activeItemIndex = widget.initialRating - 1;
+  }
 
   setActiveItem(int index) {
     setState(() {

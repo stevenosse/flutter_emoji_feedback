@@ -31,6 +31,7 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               EmojiFeedback(
+                initialRating: 5,
                 emojiPreset: handDrawnEmojiPreset,
                 labelTextStyle: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400),
                 onChanged: (value) {
