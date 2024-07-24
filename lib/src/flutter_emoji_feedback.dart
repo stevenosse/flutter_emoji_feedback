@@ -154,8 +154,6 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
                       element.src,
                       width: elementSize,
                       package: element.package,
-                      colorFilter: ColorFilter.mode(
-                          Colors.grey.withOpacity(0.5), BlendMode.saturation),
                     );
 
                     return AnimatedScale(
@@ -168,7 +166,15 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
                               ? child
                               : GestureDetector(
                                   onTap: () => setActiveItem(index),
-                                  child: child,
+                                  child: Container(
+                                    foregroundDecoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: widget.inactiveElementBlendColor ??
+                                          Colors.grey,
+                                      backgroundBlendMode: BlendMode.saturation,
+                                    ),
+                                    child: child,
+                                  ),
                                 ),
                           if (widget.showLabel)
                             Padding(

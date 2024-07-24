@@ -33,7 +33,10 @@ class HomePage extends StatelessWidget {
               EmojiFeedback(
                 initialRating: 5,
                 emojiPreset: handDrawnEmojiPreset,
-                labelTextStyle: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400),
+                labelTextStyle: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(fontWeight: FontWeight.w400),
                 onChanged: (value) {
                   // Show snackbar
                   ScaffoldMessenger.of(context)

@@ -1,3 +1,8 @@
+## 0.3.2
+- Fix grey background on selected emojis
+- Update sample app android gradle config
+- Fix formatting
+
 ## 0.3.1
 - Fix grey background on unselected emojis
 
