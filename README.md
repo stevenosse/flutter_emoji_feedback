@@ -45,6 +45,9 @@ EmojiFeedback(
 ```
 
 # Contribute
-Feel free to [file an issue](https://github.com/stevenosse/flutter_emoji_feedback/issues/new)
+Feel free to [open an issue](https://github.com/stevenosse/flutter_emoji_feedback/issues/new)
 
 If you find a problem or [make pull requests](https://github.com/stevenosse/flutter_emoji_feedback/pulls).
+
+## Support
+If you like this project, please [buy me a coffee](https://www.buymeacoffee.com/iamsnosse)

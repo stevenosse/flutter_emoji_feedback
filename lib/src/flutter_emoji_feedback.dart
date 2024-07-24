@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -22,6 +23,7 @@ class EmojiFeedback extends StatefulWidget {
     this.initialRating = 1,
     this.spaceBetweenItems = 10,
     this.labelPadding = const EdgeInsets.only(top: 5.0),
+    this.enableFeedback = false,
   })  : assert(emojiPreset.isNotEmpty),
         assert(
           () {
@@ -102,6 +104,10 @@ class EmojiFeedback extends StatefulWidget {
   /// See [Curves](https://api.flutter.dev/flutter/animation/Curves-class.html)
   final Curve? curve;
 
+  /// Enable haptic feedback
+  /// Defaults to `false`
+  final bool enableFeedback;
+
   @override
   State<EmojiFeedback> createState() => _EmojiFeedbackState();
 }
@@ -120,6 +126,10 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
       activeItemIndex = index;
       widget.onChanged?.call(index + 1);
     });
+
+    if (widget.enableFeedback) {
+      HapticFeedback.lightImpact();
+    }
   }
 
   @override
@@ -143,6 +153,7 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
                       element.src,
                       width: elementSize,
                       package: element.package,
+                      colorFilter: ColorFilter.mode(Colors.grey.withOpacity(0.5), BlendMode.saturation),
                     );
 
                     return AnimatedScale(
@@ -154,16 +165,8 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
                           isItemActive
                               ? child
                               : GestureDetector(
-                                  onTap: () {
-                                    setActiveItem(index);
-                                  },
-                                  child: Container(
-                                    foregroundDecoration: BoxDecoration(
-                                      color: widget.inactiveElementBlendColor ?? Colors.grey,
-                                      backgroundBlendMode: BlendMode.saturation,
-                                    ),
-                                    child: child,
-                                  ),
+                                  onTap: () => setActiveItem(index),
+                                  child: child,
                                 ),
                           if (widget.showLabel)
                             Padding(

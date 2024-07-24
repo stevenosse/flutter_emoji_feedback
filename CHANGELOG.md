@@ -1,3 +1,6 @@
+## 0.3.1
+- Fix grey background on unselected emojis
+
 ## 0.3.0
 - Add `initialRating` property to set the initial rating
 
