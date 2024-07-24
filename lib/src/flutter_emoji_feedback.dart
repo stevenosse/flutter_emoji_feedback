@@ -137,8 +137,9 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double inactiveElementScale = widget.inactiveElementScale ?? .7;
-        final double elementSize =
-            widget.elementSize ?? (constraints.maxWidth / widget.emojiPreset.length) - widget.spaceBetweenItems;
+        final double elementSize = widget.elementSize ??
+            (constraints.maxWidth / widget.emojiPreset.length) -
+                widget.spaceBetweenItems;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -153,7 +154,8 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
                       element.src,
                       width: elementSize,
                       package: element.package,
-                      colorFilter: ColorFilter.mode(Colors.grey.withOpacity(0.5), BlendMode.saturation),
+                      colorFilter: ColorFilter.mode(
+                          Colors.grey.withOpacity(0.5), BlendMode.saturation),
                     );
 
                     return AnimatedScale(
@@ -172,7 +174,8 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
                             Padding(
                               padding: widget.labelPadding,
                               child: Text(
-                                widget.customLabels?.elementAt(index) ?? element.label,
+                                widget.customLabels?.elementAt(index) ??
+                                    element.label,
                                 style: widget.labelTextStyle,
                               ),
                             ),
