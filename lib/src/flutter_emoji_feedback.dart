@@ -8,15 +8,15 @@ typedef EmojiBuilder = Widget Function(int, EmojiModel, bool);
 
 /// A fully customizable widget to receive feedback from your users.
 /// Can be used to get user's mood or evaluate experience (and more !)
-/// 
+///
 /// The widget is a row of emojis. Each emoji is a `SvgPicture` widget.
 /// The `EmojiBuilder` function is used to build the emoji.
-/// 
+///
 /// The `EmojiBuilder` function takes 3 parameters:
 /// - `index`: The index of the emoji in the `emojiPreset` list
 /// - `emoji`: The emoji model
 /// - `isActive`: Whether the emoji is active or not
-/// 
+///
 /// The `emojiPreset` list can be customized with the `EmojiModel` class.
 /// If you wish to use custom labels, you can use the `customLabels` attribute
 class EmojiFeedback extends StatelessWidget {
@@ -80,7 +80,7 @@ class EmojiFeedback extends StatelessWidget {
   final bool showLabel;
 
   /// Style of the emoji label
-  /// 
+  ///
   /// Defaults to `TextStyle(fontSize: 12, color: Colors.black)`
   final TextStyle? labelTextStyle;
 

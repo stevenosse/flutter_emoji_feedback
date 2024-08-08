@@ -1,3 +1,6 @@
+## 0.4.1
+- Add tests
+
 ## 0.4.0
 - Add `enableFeedback` property to enable haptic feedback
 - Customize `Curve` animation
