@@ -4,11 +4,25 @@ import 'package:flutter/services.dart';
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-typedef EmojiBuilder = Widget Function(int, EmojiModel);
+typedef EmojiBuilder = Widget Function(int, EmojiModel, bool);
 
-class EmojiFeedback extends StatefulWidget {
-  EmojiFeedback({
+/// A fully customizable widget to receive feedback from your users.
+/// Can be used to get user's mood or evaluate experience (and more !)
+/// 
+/// The widget is a row of emojis. Each emoji is a `SvgPicture` widget.
+/// The `EmojiBuilder` function is used to build the emoji.
+/// 
+/// The `EmojiBuilder` function takes 3 parameters:
+/// - `index`: The index of the emoji in the `emojiPreset` list
+/// - `emoji`: The emoji model
+/// - `isActive`: Whether the emoji is active or not
+/// 
+/// The `emojiPreset` list can be customized with the `EmojiModel` class.
+/// If you wish to use custom labels, you can use the `customLabels` attribute
+class EmojiFeedback extends StatelessWidget {
+  const EmojiFeedback({
     super.key,
+    this.rating,
     this.onChanged,
     this.emojiPreset = classicEmojiPreset,
     this.presetBuilder,
@@ -17,36 +31,33 @@ class EmojiFeedback extends StatefulWidget {
     this.animDuration = const Duration(milliseconds: 150),
     this.customLabels,
     this.inactiveElementBlendColor,
-    this.inactiveElementScale,
+    this.inactiveElementScale = 0.7,
     this.elementSize,
-    this.curve,
-    this.initialRating = 1,
+    this.curve = Curves.linear,
     this.spaceBetweenItems = 10,
     this.labelPadding = const EdgeInsets.only(top: 5.0),
     this.enableFeedback = false,
-  })  : assert(emojiPreset.isNotEmpty),
+    this.minRating = 1,
+    this.maxRating = 5,
+  })  : assert(emojiPreset.length > 0),
         assert(
-          () {
-            if (customLabels != null) {
-              return customLabels.length == emojiPreset.length;
-            }
-            return true;
-          }(),
+          customLabels == null || customLabels.length == emojiPreset.length,
           'emojiPreset and customLabels should have the same length',
         ),
-        assert(emojiPreset.length >= initialRating && initialRating > 0,
-            'initialRating should be between 1 and emojiPreset.length');
+        assert(minRating <= maxRating),
+        assert(
+          rating == null || (rating >= minRating && rating <= maxRating),
+          'rating should be null or between minRating and maxRating',
+        );
 
-  /// Initial value
-  ///
-  /// Defaults to `0`
-  final int initialRating;
+  /// Current rating
+  final int? rating;
 
   /// Function called when an item is selected.
   /// Values goes from 1 to `preset.length`
   ///
   /// For the classicEmojiPresset, which length is 5, the values will go from 0 to 5
-  final ValueChanged<int>? onChanged;
+  final ValueChanged<int?>? onChanged;
 
   /// List of emojis
   /// Defaults to `classicEmojiPreset`
@@ -69,6 +80,8 @@ class EmojiFeedback extends StatefulWidget {
   final bool showLabel;
 
   /// Style of the emoji label
+  /// 
+  /// Defaults to `TextStyle(fontSize: 12, color: Colors.black)`
   final TextStyle? labelTextStyle;
 
   /// Define your custom labels using this attribute.
@@ -82,7 +95,7 @@ class EmojiFeedback extends StatefulWidget {
   /// Scale factor of inactiveElements
   /// Range from `0.0` to `1.0`
   /// Defaults to `0.7`
-  final double? inactiveElementScale;
+  final double inactiveElementScale;
 
   /// Space between items
   /// Defaults to `10.0`
@@ -102,32 +115,26 @@ class EmojiFeedback extends StatefulWidget {
   /// Defaults to `Curves.linear`
   ///
   /// See [Curves](https://api.flutter.dev/flutter/animation/Curves-class.html)
-  final Curve? curve;
+  final Curve curve;
 
   /// Enable haptic feedback
   /// Defaults to `false`
   final bool enableFeedback;
 
-  @override
-  State<EmojiFeedback> createState() => _EmojiFeedbackState();
-}
+  /// Minimum rating
+  /// Defaults to `1`
+  final int minRating;
 
-class _EmojiFeedbackState extends State<EmojiFeedback> {
-  int? activeItemIndex;
+  /// Maximum rating
+  /// Defaults to `5`
+  final int maxRating;
 
-  @override
-  void initState() {
-    super.initState();
-    activeItemIndex = widget.initialRating - 1;
-  }
+  void _handleTap(int index) {
+    final newRating = index + minRating;
+    final updatedRating = rating == newRating ? null : newRating;
+    onChanged?.call(updatedRating);
 
-  setActiveItem(int index) {
-    setState(() {
-      activeItemIndex = index;
-      widget.onChanged?.call(index + 1);
-    });
-
-    if (widget.enableFeedback) {
+    if (enableFeedback) {
       HapticFeedback.lightImpact();
     }
   }
@@ -136,63 +143,108 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double inactiveElementScale = widget.inactiveElementScale ?? .7;
-        final double elementSize = widget.elementSize ??
-            (constraints.maxWidth / widget.emojiPreset.length) -
-                widget.spaceBetweenItems;
+        final double elementSize = this.elementSize ??
+            (constraints.maxWidth / emojiPreset.length) - spaceBetweenItems;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ...widget.emojiPreset.mapIndexed(
-              widget.presetBuilder ??
-                  (index, element) {
-                    final isItemActive = activeItemIndex == index;
-
-                    final child = SvgPicture.asset(
-                      element.src,
-                      width: elementSize,
-                      package: element.package,
-                    );
-
-                    return AnimatedScale(
-                      scale: isItemActive ? 1 : inactiveElementScale,
-                      duration: widget.animDuration,
-                      curve: widget.curve ?? Curves.linear,
-                      child: Column(
-                        children: [
-                          isItemActive
-                              ? child
-                              : GestureDetector(
-                                  onTap: () => setActiveItem(index),
-                                  child: Container(
-                                    foregroundDecoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: widget.inactiveElementBlendColor ??
-                                          Colors.grey,
-                                      backgroundBlendMode: BlendMode.saturation,
-                                    ),
-                                    child: child,
-                                  ),
-                                ),
-                          if (widget.showLabel)
-                            Padding(
-                              padding: widget.labelPadding,
-                              child: Text(
-                                widget.customLabels?.elementAt(index) ??
-                                    element.label,
-                                style: widget.labelTextStyle,
-                              ),
-                            ),
-                        ],
-                      ),
-                    );
-                  },
-            ),
-          ],
+          children: emojiPreset
+              .take(maxRating - minRating + 1)
+              .mapIndexed((index, element) => _EmojiItem(
+                    emoji: element,
+                    index: index,
+                    isActive: rating == index + minRating,
+                    onTap: _handleTap,
+                    builder: presetBuilder,
+                    showLabel: showLabel,
+                    labelTextStyle: labelTextStyle,
+                    customLabel: customLabels?.elementAt(index),
+                    inactiveElementBlendColor: inactiveElementBlendColor,
+                    inactiveElementScale: inactiveElementScale,
+                    elementSize: elementSize,
+                    labelPadding: labelPadding,
+                    animDuration: animDuration,
+                    curve: curve,
+                  ))
+              .toList(),
         );
       },
+    );
+  }
+}
+
+class _EmojiItem extends StatelessWidget {
+  const _EmojiItem({
+    required this.emoji,
+    required this.index,
+    required this.isActive,
+    required this.onTap,
+    this.builder,
+    required this.showLabel,
+    this.labelTextStyle,
+    this.customLabel,
+    this.inactiveElementBlendColor,
+    required this.inactiveElementScale,
+    required this.elementSize,
+    required this.labelPadding,
+    required this.animDuration,
+    required this.curve,
+  });
+
+  final EmojiModel emoji;
+  final int index;
+  final bool isActive;
+  final ValueChanged<int> onTap;
+  final EmojiBuilder? builder;
+  final bool showLabel;
+  final TextStyle? labelTextStyle;
+  final String? customLabel;
+  final Color? inactiveElementBlendColor;
+  final double inactiveElementScale;
+  final double elementSize;
+  final EdgeInsetsGeometry labelPadding;
+  final Duration animDuration;
+  final Curve curve;
+
+  @override
+  Widget build(BuildContext context) {
+    final child = builder?.call(index, emoji, isActive) ??
+        SvgPicture.asset(
+          emoji.src,
+          width: elementSize,
+          package: emoji.package,
+        );
+
+    return AnimatedScale(
+      scale: isActive ? 1 : inactiveElementScale,
+      duration: animDuration,
+      curve: curve,
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () => onTap(index),
+            child: isActive
+                ? child
+                : Container(
+                    foregroundDecoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: inactiveElementBlendColor ?? Colors.grey,
+                      backgroundBlendMode: BlendMode.saturation,
+                    ),
+                    child: child,
+                  ),
+          ),
+          if (showLabel)
+            Padding(
+              padding: labelPadding,
+              child: Text(
+                customLabel ?? emoji.label,
+                style: labelTextStyle,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

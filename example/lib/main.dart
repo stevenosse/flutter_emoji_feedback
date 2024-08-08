@@ -17,8 +17,15 @@ class ExampleApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int? rating;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +38,14 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               EmojiFeedback(
-                initialRating: 5,
+                rating: rating,
                 emojiPreset: handDrawnEmojiPreset,
                 labelTextStyle: Theme.of(context)
                     .textTheme
                     .bodySmall
                     ?.copyWith(fontWeight: FontWeight.w400),
                 onChanged: (value) {
+                  setState(() => rating = value);
                   // Show snackbar
                   ScaffoldMessenger.of(context)
                     ..clearSnackBars()

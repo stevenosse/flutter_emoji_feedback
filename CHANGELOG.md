@@ -1,3 +1,14 @@
+## 0.4.0
+- Add `enableFeedback` property to enable haptic feedback
+- Customize `Curve` animation
+- Add `minRating` and `maxRating` properties to limit the rating range
+- A second tap on an emoji will now reset the rating to `null`
+- Update docs
+
+[Breaking change] 
+- `initialRating` property is now `rating` and is nullable. 
+- The `EmojiBuilder` function now takes an additional `bool` parameter to indicate if the emoji is active or not
+
 ## 0.3.2
 - Fix grey background on selected emojis
 - Update sample app android gradle config
