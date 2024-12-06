@@ -128,8 +128,8 @@ const List<EmojiModel> notoAnimatedEmojis = [
     package: 'flutter_emoji_feedback',
   ),
   EmojiModel(
-    src: Assets.animatedGood,
-    label: 'Good',
+    src: Assets.animatedNeutral,
+    label: 'Ok',
     package: 'flutter_emoji_feedback',
   ),
   EmojiModel(
@@ -143,4 +143,3 @@ const List<EmojiModel> notoAnimatedEmojis = [
     package: 'flutter_emoji_feedback',
   ),
 ];
-

@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               EmojiFeedback(
+                onChangeWaitForAnimation: true,
                 //emojiPreset: handDrawnEmojiPreset,
                 labelTextStyle: Theme.of(context)
                     .textTheme

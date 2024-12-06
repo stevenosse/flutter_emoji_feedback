@@ -13,6 +13,7 @@ class Assets {
   static const String animatedAwesome = 'assets/animated_awesome.json';
   static const String animatedBad = 'assets/animated_bad.json';
   static const String animatedGood = 'assets/animated_good.json';
+  static const String animatedNeutral = 'assets/animated_neutral.json';
   static const String animatedTerrible = 'assets/animated_terrible.json';
   static const String animatedVeryGood = 'assets/animated_very_good.json';
   static const String classicAwesome = 'assets/classic_awesome.svg';
@@ -41,6 +42,7 @@ class Assets {
         animatedAwesome,
         animatedBad,
         animatedGood,
+        animatedNeutral,
         animatedTerrible,
         animatedVeryGood,
         classicAwesome,
