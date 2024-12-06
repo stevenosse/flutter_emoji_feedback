@@ -115,3 +115,32 @@ const List<EmojiModel> threeDEmojiPreset = [
     package: 'flutter_emoji_feedback',
   ),
 ];
+
+const List<EmojiModel> notoAnimatedEmojis = [
+  EmojiModel(
+    src: Assets.animatedTerrible,
+    label: 'Terrible',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.animatedBad,
+    label: 'Bad',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.animatedGood,
+    label: 'Good',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.animatedVeryGood,
+    label: 'Very good',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.animatedAwesome,
+    label: 'Awesome',
+    package: 'flutter_emoji_feedback',
+  ),
+];
+
