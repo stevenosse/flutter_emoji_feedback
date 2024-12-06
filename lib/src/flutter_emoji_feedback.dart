@@ -135,7 +135,6 @@ class _EmojiFeedbackStatefulState extends State<EmojiFeedback> {
   @override
   void initState() {
     super.initState();
-    rating = widget.minRating;
   }
 
   void _handleTap(int index) {
