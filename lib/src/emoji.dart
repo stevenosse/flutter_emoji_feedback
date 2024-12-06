@@ -4,24 +4,25 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 
 class EmojiItem extends StatefulWidget {
-    const EmojiItem({super.key, 
-    required this.emoji,
-    required this.index,
-    required this.isActive,
-    required this.onTap,
-    this.builder,
-    required this.showLabel,
-    this.labelTextStyle,
-    this.customLabel,
-    this.inactiveElementBlendColor,
-    required this.inactiveElementScale,
-    required this.elementSize,
-    required this.labelPadding,
-    required this.animDuration,
-    required this.curve,
-    required this.onChangeWaitForAnimation,
-    required this.onSelected,
-  });
+  const EmojiItem(
+      {super.key,
+      required this.emoji,
+      required this.index,
+      required this.isActive,
+      required this.onTap,
+      this.builder,
+      required this.showLabel,
+      this.labelTextStyle,
+      this.customLabel,
+      this.inactiveElementBlendColor,
+      required this.inactiveElementScale,
+      required this.elementSize,
+      required this.labelPadding,
+      required this.animDuration,
+      required this.curve,
+      required this.onChangeWaitForAnimation,
+      required this.onSelected,
+      required this.idleEmoji});
 
   final EmojiModel emoji;
   final int index;
@@ -39,9 +40,10 @@ class EmojiItem extends StatefulWidget {
   final Curve curve;
   final bool onChangeWaitForAnimation;
   final VoidCallback onSelected;
+  final EmojiModel? idleEmoji;
 
   @override
-  State<StatefulWidget> createState () => _EmojiItemState();
+  State<StatefulWidget> createState() => _EmojiItemState();
 }
 
 class _EmojiItemState extends State<EmojiItem>
@@ -49,10 +51,13 @@ class _EmojiItemState extends State<EmojiItem>
   late AnimationController _controller;
   Duration? _animationDuration;
 
-    @override
+  @override
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
+    if (widget.emoji.src.endsWith(".json")) {
+      _initializeAnimation();
+    }
   }
 
   @override
@@ -91,22 +96,39 @@ class _EmojiItemState extends State<EmojiItem>
       _controller.reset();
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    final child = widget.builder?.call(widget.index, widget.emoji, widget.isActive) ??
-        (widget.emoji.src.endsWith(".json")
-            ? Lottie.asset(
-                widget.emoji.src,
-                width: widget.elementSize,
-                package: widget.emoji.package,
-                controller: _controller,
-              )
-            : SvgPicture.asset(
-                widget.emoji.src,
-                width: widget.elementSize,
-                package: widget.emoji.package,
-              ));
+    var child =
+        widget.builder?.call(widget.index, widget.emoji, widget.isActive) ??
+            (widget.emoji.src.endsWith(".json")
+                ? Lottie.asset(
+                    widget.emoji.src,
+                    width: widget.elementSize,
+                    package: widget.emoji.package,
+                    controller: _controller,
+                  )
+                : SvgPicture.asset(
+                    widget.emoji.src,
+                    width: widget.elementSize,
+                    package: widget.emoji.package,
+                  ));
+
+    final idleEmoji = widget.idleEmoji;
+    if (idleEmoji != null && widget.isActive) {
+      child = Lottie.asset(
+        widget.emoji.src,
+        width: widget.elementSize,
+        package: widget.emoji.package,
+        controller: _controller,
+      );
+    } else if (idleEmoji != null) {
+      child = SvgPicture.asset(
+        idleEmoji.src,
+        width: widget.elementSize,
+        package: idleEmoji.package,
+      );
+    }
 
     return AnimatedScale(
       scale: widget.isActive ? 1 : widget.inactiveElementScale,
@@ -115,7 +137,7 @@ class _EmojiItemState extends State<EmojiItem>
       child: Column(
         children: [
           GestureDetector(
-                  onTap: () async {
+            onTap: () async {
               widget.onSelected();
 
               // Initialize the animation regardless of the mode.

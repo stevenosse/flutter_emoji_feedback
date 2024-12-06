@@ -31,6 +31,12 @@ class Assets {
   static const String hdGood = 'assets/hd_good.svg';
   static const String hdTerrible = 'assets/hd_terrible.svg';
   static const String hdVeryGood = 'assets/hd_very_good.svg';
+  static const String notoAwesome = 'assets/noto_awesome.svg';
+  static const String notoBad = 'assets/noto_bad.svg';
+  static const String notoGood = 'assets/noto_good.svg';
+  static const String notoNeutral = 'assets/noto_neutral.svg';
+  static const String notoTerrible = 'assets/noto_terrible.svg';
+  static const String notoVeryGood = 'assets/noto_very_good.svg';
   static const String threeDAwesome = 'assets/three_d_awesome.svg';
   static const String threeDBad = 'assets/three_d_bad.svg';
   static const String threeDGood = 'assets/three_d_good.svg';
@@ -60,6 +66,12 @@ class Assets {
         hdGood,
         hdTerrible,
         hdVeryGood,
+        notoAwesome,
+        notoBad,
+        notoGood,
+        notoNeutral,
+        notoTerrible,
+        notoVeryGood,
         threeDAwesome,
         threeDBad,
         threeDGood,

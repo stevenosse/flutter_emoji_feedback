@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
 import 'package:flutter_emoji_feedback/src/emoji.dart';
+import 'package:flutter_emoji_feedback/src/models/base.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 typedef EmojiBuilder = Widget Function(int, EmojiModel, bool);
@@ -40,10 +41,11 @@ class EmojiFeedback extends StatefulWidget {
     this.minRating = 1,
     this.maxRating = 5,
     this.onChangeWaitForAnimation = false,
-  })  : assert(minRating <= maxRating && maxRating <= emojiPreset.length),
+  }) /* incompatible with new EmojiPreset class (I think)  : assert(minRating <= maxRating && maxRating <= emojiPreset.emojis.length),
         assert(
             customLabels == null || customLabels.length == emojiPreset.length,
-            'emojiPreset and customLabels should have the same length');
+            'emojiPreset and customLabels should have the same length')*/
+  ;
 
   /// Function called when an item is selected.
   /// Values goes from 1 to `preset.length`
@@ -52,13 +54,13 @@ class EmojiFeedback extends StatefulWidget {
   final ValueChanged<int?>? onChanged;
 
   /// List of emojis
-  /// Defaults to `classicEmojiPreset`
+  /// Defaults to `notoAnimatedEmojis`
   ///
-  /// Available presets: `classicEmojiPreset`, `flatEmojiPreset`, `threeDEmojiPreset`
+  /// Available presets: `classicEmojiPreset`, `flatEmojiPreset`, `threeDEmojiPreset`, `notoAnimatedEmojis`, `notoEmojis`
   ///
   /// You can create your own presets with the `EmojiModel` class.
   /// If you wish to use custom labels, you can use the `customLabels` attribute
-  final List<EmojiModel> emojiPreset;
+  final EmojiPreset emojiPreset;
 
   /// Duration of the scale animation
   /// Defaults to `const Duration(milliseconds: 150)`
@@ -150,15 +152,20 @@ class _EmojiFeedbackStatefulState extends State<EmojiFeedback> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double elementSize = widget.elementSize ??
-            (constraints.maxWidth / widget.emojiPreset.length) -
+            (constraints.maxWidth / widget.emojiPreset.emojis.length) -
                 widget.spaceBetweenItems;
+        final preset = widget.emojiPreset;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: widget.emojiPreset
+          children: widget.emojiPreset.emojis
               .take(widget.maxRating - widget.minRating + 1)
               .mapIndexed((index, element) => EmojiItem(
+                    idleEmoji: (preset is AnimatedEmojiPreset &&
+                            preset.idleEmojis != null)
+                        ? preset.idleEmojis!.emojis.elementAt(index)
+                        : null,
                     emoji: element,
                     index: index,
                     isActive: rating == index + widget.minRating,
