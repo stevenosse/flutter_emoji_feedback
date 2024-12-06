@@ -72,3 +72,8 @@ Contributions are what make the open source community such an amazing place to l
 
 - [flutter_svg](https://pub.dev/packages/flutter_svg)
 - [collection](https://pub.dev/packages/collection)
+
+## Attribution
+This project uses [Animated Noto Emoji](https://github.com/googlefonts/noto-emoji), which is licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+
+© Google LLC. Licensed under CC BY 4.0.
