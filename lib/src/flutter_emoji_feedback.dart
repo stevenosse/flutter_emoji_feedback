@@ -41,6 +41,7 @@ class EmojiFeedback extends StatefulWidget {
     this.minRating = 1,
     this.maxRating = 5,
     this.onChangeWaitForAnimation = false,
+    this.tapScale = 0.6,
   }) /* incompatible with new EmojiPreset class (I think)  : assert(minRating <= maxRating && maxRating <= emojiPreset.emojis.length),
         assert(
             customLabels == null || customLabels.length == emojiPreset.length,
@@ -127,6 +128,11 @@ class EmojiFeedback extends StatefulWidget {
   /// If false, the onChange callback will be called immediately.
   final bool onChangeWaitForAnimation;
 
+  /// tapScale controls the size change of the emoji while it's being held down.
+  ///
+  /// Disable hold behavior by passing `inactiveElementScale` as `tapScale`
+  final double tapScale;
+
   @override
   State<EmojiFeedback> createState() => _EmojiFeedbackStatefulState();
 }
@@ -162,6 +168,7 @@ class _EmojiFeedbackStatefulState extends State<EmojiFeedback> {
           children: widget.emojiPreset.emojis
               .take(widget.maxRating - widget.minRating + 1)
               .mapIndexed((index, element) => EmojiItem(
+                    tapScale: widget.tapScale,
                     idleEmoji: (preset is AnimatedEmojiPreset &&
                             preset.idleEmojis != null)
                         ? preset.idleEmojis!.emojis.elementAt(index)

@@ -22,7 +22,8 @@ class EmojiItem extends StatefulWidget {
       required this.curve,
       required this.onChangeWaitForAnimation,
       required this.onSelected,
-      required this.idleEmoji});
+      required this.idleEmoji,
+      required this.tapScale});
 
   final EmojiModel emoji;
   final int index;
@@ -41,6 +42,7 @@ class EmojiItem extends StatefulWidget {
   final bool onChangeWaitForAnimation;
   final VoidCallback onSelected;
   final EmojiModel? idleEmoji;
+  final double tapScale;
 
   @override
   State<StatefulWidget> createState() => _EmojiItemState();
@@ -50,6 +52,7 @@ class _EmojiItemState extends State<EmojiItem>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   Duration? _animationDuration;
+  bool _isTapped = false;
 
   @override
   void initState() {
@@ -131,12 +134,29 @@ class _EmojiItemState extends State<EmojiItem>
     }
 
     return AnimatedScale(
-      scale: widget.isActive ? 1 : widget.inactiveElementScale,
+      scale: (widget.isActive
+          ? 1
+          : (_isTapped ? widget.tapScale : widget.inactiveElementScale)),
       duration: widget.animDuration,
       curve: widget.curve,
       child: Column(
         children: [
           GestureDetector(
+            onTapDown: (details) {
+              setState(() {
+                _isTapped = true;
+              });
+            },
+            onTapUp: (details) {
+              setState(() {
+                _isTapped = false;
+              });
+            },
+            onTapCancel: () {
+              setState(() {
+                _isTapped = false;
+              });
+            },
             onTap: () async {
               widget.onSelected();
 
