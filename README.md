@@ -7,27 +7,23 @@ A fully customizable widget to receive feedback from your users. Can be used to 
 <img src="./msedge_d8jeGIRkrm.gif" style="border-radius: 15px;"/>
 </div>
 
-### 📺 What's new?
+## 📺 What's new?
 You can now use animated lottie files (json only) for emoji presets, or the provided `notoAnimatedEmojis` preset.
 
+### ⚠️ Breaking changes
+- `rating` is now no longer needed, the package handles that internally
+- Presets must be defined as either a `StaticEmojiPreset` or a `AnimatedEmojiPreset`, see [Defining Presets](#-defining-presets)
+
 ## 🚀 Getting started
+### Install from pub
 
-
-<!--Install from pub : ```dart
-$ flutter pub add flutter_emoji_feedback
-```
--->
-
-Add this to your `pubspec.yaml`:
-```yaml
-flutter_emoji_feedback:
-  git:
-    url: https://github.com/turtlepaw/flutter_emoji_feedback.git
+```shell
+flutter pub add flutter_emoji_feedback
 ```
 
 ## 📔 Usage 
 
-Import flutter_emoji_feedback :
+Import flutter_emoji_feedback:
 
 ```dart
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
@@ -35,14 +31,94 @@ import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
 
 ```dart
 EmojiFeedback(
-  rating: 4, // Rating 
+  initialRating: 4, // Set to null (default) for no initial rating
   animDuration: const Duration(milliseconds: 300), // Duration of the animation
   curve: Curves.bounceIn, // Curve of the animation
   inactiveElementScale: .5, // Scale of the inactive element
-  onChanged: (value) { // Callback when the user change the value of the emoji
+  onChanged: (value) {
+    // Callback when the user change the value of the emoji
   },
+  onChangeWaitForAnimation: true, // Wait for the animation of the emoji to complete before calling `#onChanged`
   // Other parameters
 );
+```
+
+| Parameter name | Description | Type |
+| --- | --- | --- |
+| `onChangeWaitForAnimation` | If true, the emoji's animation will finish before calling `#onChange`  | `bool` |
+| `initialRating` | Sets the initial rating, if null, there will be no initial rating | `int?` |
+| `tapScale` | The scale for when the user holds down the emoji, set to `inactiveElementScale` for none | `double` |
+| `animDuration` | Duration of the animation | `Duration` |
+| `curve` | Curve of the animation | `Curve` |
+| `inactiveElementScale` | Scale of the inactive element | `double` |
+| `onChanged` | Function called when an item is selected. Values goes from 1 to `preset.length` | `ValueChanged<int?>?` |
+| `emojiPreset` | List of emojis. Available presets: `classicEmojiPreset`, `flatEmojiPreset`, `threeDEmojiPreset`, `notoAnimatedEmojis`, `notoEmojis`. You can create your own presets, see [Defining Presets](#-defining-presets). | `EmojiPreset` |
+| `presetBuilder` | Custom emoji widget builder | `EmojiBuilder?` |
+| `showLabel` | Whether the label should be displayed or not | `bool` |
+| `labelTextStyle` | Style of the emoji label | `TextStyle?` |
+| `customLabels` | Define your custom labels. Useful if you wish to use the predefined emojis with custom labels | `List<String>?` |
+| `inactiveElementBlendColor` | Custom blend color for inactive elements | `Color?` |
+| `spaceBetweenItems` | Space between items | `double` |
+| `elementSize` | Size of emoji elements | `double?` |
+| `labelPadding` | Label padding | `EdgeInsetsGeometry` |
+| `enableFeedback` | Enable haptic feedback | `bool` |
+| `minRating` | Minimum rating | `int` |
+| `maxRating` | Maximum rating | `int` |
+| `onChangeWaitForAnimation` | If true, the onChange callback will be called after the animation is completed | `bool` |
+
+### 🎨 Defining presets
+You can easily create presets using the [`StaticEmojiPreset`](./lib/src/models/preset.dart) and [`AnimatedEmojiPreset`](./lib/src/models/preset.dart), which hold the emojis.
+
+```dart
+// Defining a static emoji preset using SVG files
+// Replace the `image` with your SVG file path
+const myStaticEmojiPreset = StaticEmojiPreset([
+  StaticEmoji(
+    image: 'assets/images/emoji1.svg',
+    value: 1,
+  ),
+  StaticEmoji(
+    image: 'assets/images/emoji2.svg',
+    value: 2,
+  ),
+  StaticEmoji(
+    image: 'assets/images/emoji3.svg',
+    value: 3,
+  ),
+  StaticEmoji(
+    image: 'assets/images/emoji4.svg',
+    value: 4,
+  ),
+  StaticEmoji(
+    image: 'assets/images/emoji5.svg',
+    value: 5,
+  ),
+]);
+
+// Defining an animated emoji preset using Lottie files
+// Replace the `animation` with the path to your Lottie file
+const myAnimatedEmojiPreset = AnimatedEmojiPreset([
+  AnimatedEmoji(
+    animation: 'assets/animations/emoji1.json',
+    value: 1
+  ),
+  AnimatedEmoji(
+    animation: 'assets/animations/emoji2.json',
+    value: 2
+  ),
+  AnimatedEmoji(
+    animation: 'assets/animations/emoji3.json',
+    value: 3
+  ),
+  AnimatedEmoji(
+    animation: 'assets/animations/emoji4.json',
+    value: 4
+  ),
+  AnimatedEmoji(
+    animation: 'assets/animations/emoji5.json',
+    value: 5,
+  ),
+]);
 ```
 
 ## 📝 License
