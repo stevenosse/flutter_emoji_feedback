@@ -40,13 +40,10 @@ class EmojiFeedback extends StatefulWidget {
     this.enableFeedback = false,
     this.minRating = 1,
     this.maxRating = 5,
+    this.initialRating,
     this.onChangeWaitForAnimation = false,
     this.tapScale = 0.6,
-  }) /* incompatible with new EmojiPreset class (I think)  : assert(minRating <= maxRating && maxRating <= emojiPreset.emojis.length),
-        assert(
-            customLabels == null || customLabels.length == emojiPreset.length,
-            'emojiPreset and customLabels should have the same length')*/
-  ;
+  });
 
   /// Function called when an item is selected.
   /// Values goes from 1 to `preset.length`
@@ -124,6 +121,10 @@ class EmojiFeedback extends StatefulWidget {
   /// Defaults to `5`
   final int maxRating;
 
+  /// Initial rating
+  /// Defaults to `null`
+  final int? initialRating;
+
   /// If true, the onChange callback will be called after the animation is completed.
   /// If false, the onChange callback will be called immediately.
   final bool onChangeWaitForAnimation;
@@ -134,18 +135,31 @@ class EmojiFeedback extends StatefulWidget {
   final double tapScale;
 
   @override
-  State<EmojiFeedback> createState() => _EmojiFeedbackStatefulState();
+  State<EmojiFeedback> createState() => _EmojiFeedbackState();
 }
 
-class _EmojiFeedbackStatefulState extends State<EmojiFeedback> {
+class _EmojiFeedbackState extends State<EmojiFeedback> {
   int? rating;
 
   @override
   void initState() {
+    if (widget.initialRating != null) {
+      setState(() {
+        rating = widget.initialRating;
+      });
+    }
+
     super.initState();
   }
 
-  void _handleTap(int index) {
+  void _handleTap(int? index) {
+    if (index == null) {
+      widget.onChanged?.call(null);
+      return setState(() {
+        rating = null;
+      });
+    }
+
     widget.onChanged?.call(rating);
 
     if (widget.enableFeedback) {

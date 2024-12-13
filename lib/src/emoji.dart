@@ -4,31 +4,32 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 
 class EmojiItem extends StatefulWidget {
-  const EmojiItem(
-      {super.key,
-      required this.emoji,
-      required this.index,
-      required this.isActive,
-      required this.onTap,
-      this.builder,
-      required this.showLabel,
-      this.labelTextStyle,
-      this.customLabel,
-      this.inactiveElementBlendColor,
-      required this.inactiveElementScale,
-      required this.elementSize,
-      required this.labelPadding,
-      required this.animDuration,
-      required this.curve,
-      required this.onChangeWaitForAnimation,
-      required this.onSelected,
-      required this.idleEmoji,
-      required this.tapScale});
+  const EmojiItem({
+    super.key,
+    required this.emoji,
+    required this.index,
+    required this.isActive,
+    required this.onTap,
+    this.builder,
+    required this.showLabel,
+    this.labelTextStyle,
+    this.customLabel,
+    this.inactiveElementBlendColor,
+    required this.inactiveElementScale,
+    required this.elementSize,
+    required this.labelPadding,
+    required this.animDuration,
+    required this.curve,
+    required this.onChangeWaitForAnimation,
+    required this.onSelected,
+    required this.idleEmoji,
+    required this.tapScale,
+  });
 
   final EmojiModel emoji;
   final int index;
   final bool isActive;
-  final ValueChanged<int> onTap;
+  final ValueChanged<int?> onTap;
   final EmojiBuilder? builder;
   final bool showLabel;
   final TextStyle? labelTextStyle;
@@ -70,16 +71,17 @@ class _EmojiItemState extends State<EmojiItem>
   }
 
   Future<void> _initializeAnimation() async {
-    if (widget.emoji.src.endsWith(".json")) {
-      await Future.delayed(Duration.zero); // Wait for the widget to load
-      final composition =
-          await AssetLottie(widget.emoji.src, package: widget.emoji.package)
-              .load();
-      setState(() {
-        _animationDuration = composition.duration;
-        _controller.duration = composition.duration;
-      });
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (widget.emoji.src.endsWith(".json")) {
+        final composition =
+            await AssetLottie(widget.emoji.src, package: widget.emoji.package)
+                .load();
+        setState(() {
+          _animationDuration = composition.duration;
+          _controller.duration = composition.duration;
+        });
+      }
+    });
   }
 
   Future<void> _playAnimation() async {
@@ -92,40 +94,42 @@ class _EmojiItemState extends State<EmojiItem>
   @override
   void didUpdateWidget(covariant EmojiItem oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // if (widget.isActive && !oldWidget.isActive) {
-    //   _initializeAnimation().then((_) => _playAnimation());
-    // } else
     if (!widget.isActive && oldWidget.isActive) {
       _controller.reset();
     }
   }
 
+  Widget? buildChild() {
+    if (widget.builder != null) {
+      return widget.builder?.call(widget.index, widget.emoji, widget.isActive);
+    } else if (widget.emoji.src.endsWith(".json")) {
+      return Lottie.asset(
+        widget.emoji.src,
+        width: widget.elementSize,
+        package: widget.emoji.package,
+        controller: _controller,
+      );
+    } else {
+      return SvgPicture.asset(
+        widget.emoji.src,
+        width: widget.elementSize,
+        package: widget.emoji.package,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var child =
-        widget.builder?.call(widget.index, widget.emoji, widget.isActive) ??
-            (widget.emoji.src.endsWith(".json")
-                ? Lottie.asset(
-                    widget.emoji.src,
-                    width: widget.elementSize,
-                    package: widget.emoji.package,
-                    controller: _controller,
-                  )
-                : SvgPicture.asset(
-                    widget.emoji.src,
-                    width: widget.elementSize,
-                    package: widget.emoji.package,
-                  ));
-
+    var child = buildChild();
     final idleEmoji = widget.idleEmoji;
-    if (idleEmoji != null && widget.isActive) {
+    if (idleEmoji != null && widget.isActive && widget.builder == null) {
       child = Lottie.asset(
         widget.emoji.src,
         width: widget.elementSize,
         package: widget.emoji.package,
         controller: _controller,
       );
-    } else if (idleEmoji != null) {
+    } else if (idleEmoji != null && widget.builder == null) {
       child = SvgPicture.asset(
         idleEmoji.src,
         width: widget.elementSize,
@@ -158,6 +162,12 @@ class _EmojiItemState extends State<EmojiItem>
               });
             },
             onTap: () async {
+              // Toggle active state if already active
+              if (widget.isActive) {
+                widget.onTap(null); // Pass -1 to indicate deselection
+                return;
+              }
+
               widget.onSelected();
 
               // Initialize the animation regardless of the mode.
