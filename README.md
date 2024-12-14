@@ -157,7 +157,4 @@ This project uses [Animated Noto Emoji](https://github.com/googlefonts/noto-emoj
 
 © Google LLC. Licensed under CC BY 4.0.
 
-<img src="./assets/noto_awesome.svg" width="50"/>
-<img src="./assets/noto_good.svg" width="50"/>
-<img src="./assets/noto_bad.svg" width="50"/>
-<img src="./assets/noto_terrible.svg" width="50"/>
+<img src="./assets/noto_awesome.svg" width="50"/> <img src="./assets/noto_good.svg" width="50"/> <img src="./assets/noto_bad.svg" width="50"/> <img src="./assets/noto_terrible.svg" width="50"/>
