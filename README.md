@@ -1,5 +1,6 @@
 # flutter_emoji_feedback 
 [![pub package](https://img.shields.io/pub/v/flutter_emoji_feedback.svg)](https://pub.dartlang.org/packages/flutter_emoji_feedback)
+[![](https://github.com/stevenosse/flutter_emoji_feedback/actions/workflows/test.yml/badge.svg)](https://github.com/stevenosse/flutter_emoji_feedback/actions)
 
 A fully customizable widget to receive feedback from your users. Can be used to get user's mood, evaluate experience, and more!
 
@@ -11,7 +12,7 @@ A fully customizable widget to receive feedback from your users. Can be used to 
 You can now use animated lottie files (json only) for emoji presets, or the provided `notoAnimatedEmojis` preset.
 
 ### ⚠️ Breaking changes
-- `rating` is now no longer needed, the package handles that internally
+- `rating` is now no longer needed, the package handles that internally. If you need to set an intial rating, see [Parameters](#parameters).
 - Presets must be defined as either a `StaticEmojiPreset` or a `AnimatedEmojiPreset`, see [Defining Presets](#-defining-presets)
 
 ## 🚀 Getting started
@@ -43,6 +44,7 @@ EmojiFeedback(
 );
 ```
 
+### Parameters
 | Parameter name | Description | Type |
 | --- | --- | --- |
 | `onChangeWaitForAnimation` | If true, the emoji's animation will finish before calling `#onChange`  | `bool` |
@@ -148,8 +150,14 @@ Contributions are what make the open source community such an amazing place to l
 
 - [flutter_svg](https://pub.dev/packages/flutter_svg)
 - [collection](https://pub.dev/packages/collection)
+- [lottie](https://pub.dev/packages/lottie)
 
 ## Attribution
 This project uses [Animated Noto Emoji](https://github.com/googlefonts/noto-emoji), which is licensed under the [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
 © Google LLC. Licensed under CC BY 4.0.
+
+<img src="./assets/noto_awesome.svg" width="50"/>
+<img src="./assets/noto_good.svg" width="50"/>
+<img src="./assets/noto_bad.svg" width="50"/>
+<img src="./assets/noto_terrible.svg" width="50"/>
