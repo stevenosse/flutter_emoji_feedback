@@ -1,6 +1,6 @@
 # flutter_emoji_feedback 
 [![pub package](https://img.shields.io/pub/v/flutter_emoji_feedback.svg)](https://pub.dartlang.org/packages/flutter_emoji_feedback)
-[![](https://github.com/stevenosse/flutter_emoji_feedback/actions/workflows/test.yml/badge.svg)](https://github.com/stevenosse/flutter_emoji_feedback/actions)
+[![GitHub CI](https://github.com/stevenosse/flutter_emoji_feedback/actions/workflows/test.yml/badge.svg)](https://github.com/stevenosse/flutter_emoji_feedback/actions)
 
 A fully customizable widget to receive feedback from your users. Can be used to get user's mood, evaluate experience, and more!
 
