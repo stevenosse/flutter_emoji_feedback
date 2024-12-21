@@ -1,10 +1,11 @@
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
 import 'package:flutter_emoji_feedback/gen/assets.gen.dart';
+import 'package:flutter_emoji_feedback/src/models/preset.dart';
 
 import 'models/emoji_model.dart';
 
 // Classic emoji preset
-const List<EmojiModel> classicEmojiPreset = [
+const classicEmojiPreset = StaticEmojiPreset([
   EmojiModel(
     src: Assets.classicTerrible,
     label: 'Terrible',
@@ -30,9 +31,9 @@ const List<EmojiModel> classicEmojiPreset = [
     label: 'Awesome',
     package: 'flutter_emoji_feedback',
   ),
-];
+]);
 
-const List<EmojiModel> handDrawnEmojiPreset = [
+const handDrawnEmojiPreset = StaticEmojiPreset([
   EmojiModel(
     src: Assets.hdTerrible,
     label: 'Terrible',
@@ -58,9 +59,9 @@ const List<EmojiModel> handDrawnEmojiPreset = [
     label: 'Awesome',
     package: 'flutter_emoji_feedback',
   ),
-];
+]);
 
-const List<EmojiModel> flatEmojiPreset = [
+const flatEmojiPreset = StaticEmojiPreset([
   EmojiModel(
     src: Assets.flatTerrible,
     label: 'Terrible',
@@ -86,9 +87,9 @@ const List<EmojiModel> flatEmojiPreset = [
     label: 'Awesome',
     package: 'flutter_emoji_feedback',
   ),
-];
+]);
 
-const List<EmojiModel> threeDEmojiPreset = [
+const threeDEmojiPreset = StaticEmojiPreset([
   EmojiModel(
     src: Assets.threeDTerrible,
     label: 'Terrible',
@@ -114,4 +115,60 @@ const List<EmojiModel> threeDEmojiPreset = [
     label: 'Awesome',
     package: 'flutter_emoji_feedback',
   ),
-];
+]);
+
+const notoEmojis = StaticEmojiPreset([
+  EmojiModel(
+    src: Assets.notoTerrible,
+    label: 'Terrible',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.notoBad,
+    label: 'Bad',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.notoNeutral,
+    label: 'Ok',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.notoVeryGood,
+    label: 'Very good',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.notoAwesome,
+    label: 'Awesome',
+    package: 'flutter_emoji_feedback',
+  ),
+]);
+
+const AnimatedEmojiPreset notoAnimatedEmojis = AnimatedEmojiPreset(emojis: [
+  EmojiModel(
+    src: Assets.animatedTerrible,
+    label: 'Terrible',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.animatedBad,
+    label: 'Bad',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.animatedNeutral,
+    label: 'Ok',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.animatedVeryGood,
+    label: 'Very good',
+    package: 'flutter_emoji_feedback',
+  ),
+  EmojiModel(
+    src: Assets.animatedAwesome,
+    label: 'Awesome',
+    package: 'flutter_emoji_feedback',
+  ),
+], idleEmojis: notoEmojis);

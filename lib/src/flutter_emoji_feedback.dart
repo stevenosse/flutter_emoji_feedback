@@ -2,6 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
+import 'package:flutter_emoji_feedback/src/emoji.dart';
+import 'package:flutter_emoji_feedback/src/models/base.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 typedef EmojiBuilder = Widget Function(int, EmojiModel, bool);
@@ -19,12 +21,11 @@ typedef EmojiBuilder = Widget Function(int, EmojiModel, bool);
 ///
 /// The `emojiPreset` list can be customized with the `EmojiModel` class.
 /// If you wish to use custom labels, you can use the `customLabels` attribute
-class EmojiFeedback extends StatelessWidget {
+class EmojiFeedback extends StatefulWidget {
   const EmojiFeedback({
     super.key,
-    this.rating,
-    this.onChanged,
-    this.emojiPreset = classicEmojiPreset,
+    required this.onChanged,
+    this.emojiPreset = notoAnimatedEmojis,
     this.presetBuilder,
     this.showLabel = true,
     this.labelTextStyle,
@@ -39,19 +40,10 @@ class EmojiFeedback extends StatelessWidget {
     this.enableFeedback = false,
     this.minRating = 1,
     this.maxRating = 5,
-  })  : assert(emojiPreset.length > 0),
-        assert(
-          customLabels == null || customLabels.length == emojiPreset.length,
-          'emojiPreset and customLabels should have the same length',
-        ),
-        assert(minRating <= maxRating),
-        assert(
-          rating == null || (rating >= minRating && rating <= maxRating),
-          'rating should be null or between minRating and maxRating',
-        );
-
-  /// Current rating
-  final int? rating;
+    this.initialRating,
+    this.onChangeWaitForAnimation = false,
+    this.tapScale = 0.6,
+  });
 
   /// Function called when an item is selected.
   /// Values goes from 1 to `preset.length`
@@ -60,13 +52,13 @@ class EmojiFeedback extends StatelessWidget {
   final ValueChanged<int?>? onChanged;
 
   /// List of emojis
-  /// Defaults to `classicEmojiPreset`
+  /// Defaults to `notoAnimatedEmojis`
   ///
-  /// Available presets: `classicEmojiPreset`, `flatEmojiPreset`, `threeDEmojiPreset`
+  /// Available presets: `classicEmojiPreset`, `flatEmojiPreset`, `threeDEmojiPreset`, `notoAnimatedEmojis`, `notoEmojis`
   ///
   /// You can create your own presets with the `EmojiModel` class.
   /// If you wish to use custom labels, you can use the `customLabels` attribute
-  final List<EmojiModel> emojiPreset;
+  final EmojiPreset emojiPreset;
 
   /// Duration of the scale animation
   /// Defaults to `const Duration(milliseconds: 150)`
@@ -129,12 +121,48 @@ class EmojiFeedback extends StatelessWidget {
   /// Defaults to `5`
   final int maxRating;
 
-  void _handleTap(int index) {
-    final newRating = index + minRating;
-    final updatedRating = rating == newRating ? null : newRating;
-    onChanged?.call(updatedRating);
+  /// Initial rating
+  /// Defaults to `null`
+  final int? initialRating;
 
-    if (enableFeedback) {
+  /// If true, the onChange callback will be called after the animation is completed.
+  /// If false, the onChange callback will be called immediately.
+  final bool onChangeWaitForAnimation;
+
+  /// tapScale controls the size change of the emoji while it's being held down.
+  ///
+  /// Disable hold behavior by passing `inactiveElementScale` as `tapScale`
+  final double tapScale;
+
+  @override
+  State<EmojiFeedback> createState() => _EmojiFeedbackState();
+}
+
+class _EmojiFeedbackState extends State<EmojiFeedback> {
+  int? rating;
+
+  @override
+  void initState() {
+    if (widget.initialRating != null) {
+      setState(() {
+        rating = widget.initialRating;
+      });
+    }
+
+    super.initState();
+  }
+
+  void _handleTap(int? index) {
+    if (index == null) {
+      widget.onChanged?.call(null);
+      return setState(() {
+        rating = null;
+      });
+    }
+
+    widget.onChanged?.call(rating);
+
+    if (widget.enableFeedback) {
       HapticFeedback.lightImpact();
     }
   }
@@ -143,108 +171,46 @@ class EmojiFeedback extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double elementSize = this.elementSize ??
-            (constraints.maxWidth / emojiPreset.length) - spaceBetweenItems;
+        final double elementSize = widget.elementSize ??
+            (constraints.maxWidth / widget.emojiPreset.emojis.length) -
+                widget.spaceBetweenItems;
+        final preset = widget.emojiPreset;
 
         return Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: emojiPreset
-              .take(maxRating - minRating + 1)
-              .mapIndexed((index, element) => _EmojiItem(
+          children: widget.emojiPreset.emojis
+              .take(widget.maxRating - widget.minRating + 1)
+              .mapIndexed((index, element) => EmojiItem(
+                    tapScale: widget.tapScale,
+                    idleEmoji: (preset is AnimatedEmojiPreset &&
+                            preset.idleEmojis != null)
+                        ? preset.idleEmojis!.emojis.elementAt(index)
+                        : null,
                     emoji: element,
                     index: index,
-                    isActive: rating == index + minRating,
+                    isActive: rating == index + widget.minRating,
                     onTap: _handleTap,
-                    builder: presetBuilder,
-                    showLabel: showLabel,
-                    labelTextStyle: labelTextStyle,
-                    customLabel: customLabels?.elementAt(index),
-                    inactiveElementBlendColor: inactiveElementBlendColor,
-                    inactiveElementScale: inactiveElementScale,
+                    builder: widget.presetBuilder,
+                    showLabel: widget.showLabel,
+                    labelTextStyle: widget.labelTextStyle,
+                    customLabel: widget.customLabels?.elementAt(index),
+                    inactiveElementBlendColor: widget.inactiveElementBlendColor,
+                    inactiveElementScale: widget.inactiveElementScale,
                     elementSize: elementSize,
-                    labelPadding: labelPadding,
-                    animDuration: animDuration,
-                    curve: curve,
+                    labelPadding: widget.labelPadding,
+                    animDuration: widget.animDuration,
+                    curve: widget.curve,
+                    onChangeWaitForAnimation: widget.onChangeWaitForAnimation,
+                    onSelected: () {
+                      setState(() {
+                        rating = index + widget.minRating;
+                      });
+                    },
                   ))
               .toList(),
         );
       },
-    );
-  }
-}
-
-class _EmojiItem extends StatelessWidget {
-  const _EmojiItem({
-    required this.emoji,
-    required this.index,
-    required this.isActive,
-    required this.onTap,
-    this.builder,
-    required this.showLabel,
-    this.labelTextStyle,
-    this.customLabel,
-    this.inactiveElementBlendColor,
-    required this.inactiveElementScale,
-    required this.elementSize,
-    required this.labelPadding,
-    required this.animDuration,
-    required this.curve,
-  });
-
-  final EmojiModel emoji;
-  final int index;
-  final bool isActive;
-  final ValueChanged<int> onTap;
-  final EmojiBuilder? builder;
-  final bool showLabel;
-  final TextStyle? labelTextStyle;
-  final String? customLabel;
-  final Color? inactiveElementBlendColor;
-  final double inactiveElementScale;
-  final double elementSize;
-  final EdgeInsetsGeometry labelPadding;
-  final Duration animDuration;
-  final Curve curve;
-
-  @override
-  Widget build(BuildContext context) {
-    final child = builder?.call(index, emoji, isActive) ??
-        SvgPicture.asset(
-          emoji.src,
-          width: elementSize,
-          package: emoji.package,
-        );
-
-    return AnimatedScale(
-      scale: isActive ? 1 : inactiveElementScale,
-      duration: animDuration,
-      curve: curve,
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () => onTap(index),
-            child: isActive
-                ? child
-                : Container(
-                    foregroundDecoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: inactiveElementBlendColor ?? Colors.grey,
-                      backgroundBlendMode: BlendMode.saturation,
-                    ),
-                    child: child,
-                  ),
-          ),
-          if (showLabel)
-            Padding(
-              padding: labelPadding,
-              child: Text(
-                customLabel ?? emoji.label,
-                style: labelTextStyle,
-              ),
-            ),
-        ],
-      ),
     );
   }
 }

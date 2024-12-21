@@ -7,11 +7,15 @@
 // ignore_for_file: type=lint
 // ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
-import 'package:flutter/widgets.dart';
-
 class Assets {
   Assets._();
 
+  static const String animatedAwesome = 'assets/animated_awesome.json';
+  static const String animatedBad = 'assets/animated_bad.json';
+  static const String animatedGood = 'assets/animated_good.json';
+  static const String animatedNeutral = 'assets/animated_neutral.json';
+  static const String animatedTerrible = 'assets/animated_terrible.json';
+  static const String animatedVeryGood = 'assets/animated_very_good.json';
   static const String classicAwesome = 'assets/classic_awesome.svg';
   static const String classicBad = 'assets/classic_bad.svg';
   static const String classicGood = 'assets/classic_good.svg';
@@ -27,6 +31,12 @@ class Assets {
   static const String hdGood = 'assets/hd_good.svg';
   static const String hdTerrible = 'assets/hd_terrible.svg';
   static const String hdVeryGood = 'assets/hd_very_good.svg';
+  static const String notoAwesome = 'assets/noto_awesome.svg';
+  static const String notoBad = 'assets/noto_bad.svg';
+  static const String notoGood = 'assets/noto_good.svg';
+  static const String notoNeutral = 'assets/noto_neutral.svg';
+  static const String notoTerrible = 'assets/noto_terrible.svg';
+  static const String notoVeryGood = 'assets/noto_very_good.svg';
   static const String threeDAwesome = 'assets/three_d_awesome.svg';
   static const String threeDBad = 'assets/three_d_bad.svg';
   static const String threeDGood = 'assets/three_d_good.svg';
@@ -34,7 +44,13 @@ class Assets {
   static const String threeDVeryGood = 'assets/three_d_very_good.svg';
 
   /// List of all assets
-  List<String> get values => [
+  static List<String> get values => [
+        animatedAwesome,
+        animatedBad,
+        animatedGood,
+        animatedNeutral,
+        animatedTerrible,
+        animatedVeryGood,
         classicAwesome,
         classicBad,
         classicGood,
@@ -50,84 +66,16 @@ class Assets {
         hdGood,
         hdTerrible,
         hdVeryGood,
+        notoAwesome,
+        notoBad,
+        notoGood,
+        notoNeutral,
+        notoTerrible,
+        notoVeryGood,
         threeDAwesome,
         threeDBad,
         threeDGood,
         threeDTerrible,
         threeDVeryGood
       ];
-}
-
-class AssetGenImage {
-  const AssetGenImage(this._assetName);
-
-  final String _assetName;
-
-  Image image({
-    Key? key,
-    AssetBundle? bundle,
-    ImageFrameBuilder? frameBuilder,
-    ImageErrorWidgetBuilder? errorBuilder,
-    String? semanticLabel,
-    bool excludeFromSemantics = false,
-    double? scale,
-    double? width,
-    double? height,
-    Color? color,
-    Animation<double>? opacity,
-    BlendMode? colorBlendMode,
-    BoxFit? fit,
-    AlignmentGeometry alignment = Alignment.center,
-    ImageRepeat repeat = ImageRepeat.noRepeat,
-    Rect? centerSlice,
-    bool matchTextDirection = false,
-    bool gaplessPlayback = false,
-    bool isAntiAlias = false,
-    String? package,
-    FilterQuality filterQuality = FilterQuality.low,
-    int? cacheWidth,
-    int? cacheHeight,
-  }) {
-    return Image.asset(
-      _assetName,
-      key: key,
-      bundle: bundle,
-      frameBuilder: frameBuilder,
-      errorBuilder: errorBuilder,
-      semanticLabel: semanticLabel,
-      excludeFromSemantics: excludeFromSemantics,
-      scale: scale,
-      width: width,
-      height: height,
-      color: color,
-      opacity: opacity,
-      colorBlendMode: colorBlendMode,
-      fit: fit,
-      alignment: alignment,
-      repeat: repeat,
-      centerSlice: centerSlice,
-      matchTextDirection: matchTextDirection,
-      gaplessPlayback: gaplessPlayback,
-      isAntiAlias: isAntiAlias,
-      package: package,
-      filterQuality: filterQuality,
-      cacheWidth: cacheWidth,
-      cacheHeight: cacheHeight,
-    );
-  }
-
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
-  }
-
-  String get path => _assetName;
-
-  String get keyName => _assetName;
 }

@@ -45,7 +45,6 @@ void main() {
           body: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return EmojiFeedback(
-                rating: changedRating,
                 onChanged: (rating) => setState(() => changedRating = rating),
               );
             },
@@ -160,7 +159,8 @@ void main() {
         home: Scaffold(
           body: EmojiFeedback(
             onChanged: (_) {},
-            rating: 3,
+            inactiveElementScale: 0.7,
+            initialRating: 3,
           ),
         ),
       ),
