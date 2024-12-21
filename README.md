@@ -2,14 +2,14 @@
 [![pub package](https://img.shields.io/pub/v/flutter_emoji_feedback.svg)](https://pub.dartlang.org/packages/flutter_emoji_feedback)
 [![GitHub CI](https://github.com/stevenosse/flutter_emoji_feedback/actions/workflows/test.yml/badge.svg)](https://github.com/stevenosse/flutter_emoji_feedback/actions)
 
-A fully customizable widget to receive feedback from your users. Can be used to get user's mood, evaluate experience, and more!
+A fully customizable widget to receive feedback from your users. Useful to get  the user's mood, evaluate their experience, and more!
 
 <div align="center">
 <img src="./msedge_d8jeGIRkrm.gif" style="border-radius: 15px;"/>
 </div>
 
 ## 📺 What's new?
-You can now use animated lottie files (json only) for emoji presets, or the provided `notoAnimatedEmojis` preset.
+You can now use animated lottie files (json files only) for emoji presets, or the provided [`notoAnimatedEmojis`](https://googlefonts.github.io/noto-emoji-animation/) preset. (see [#3](https://github.com/stevenosse/flutter_emoji_feedback/pull/3))
 
 ### ⚠️ Breaking changes
 - `rating` is now no longer needed, the package handles that internally. If you need to set an intial rating, see [Parameters](#parameters).
@@ -24,7 +24,7 @@ flutter pub add flutter_emoji_feedback
 
 ## 📔 Usage 
 
-Import flutter_emoji_feedback:
+Import `flutter_emoji_feedback`:
 
 ```dart
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
