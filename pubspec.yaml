@@ -1,6 +1,6 @@
 name: flutter_emoji_feedback
 description: A fully customizable widget to receive feedback from your users. Useful to get  the user's mood, evaluate their experience, and more!
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/stevenosse/flutter_emoji_feedback
 maintainer: Steve NOSSE
 

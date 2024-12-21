@@ -5,7 +5,7 @@
 A fully customizable widget to receive feedback from your users. Useful to get  the user's mood, evaluate their experience, and more!
 
 <div align="center">
-<img src="https://github.com/stevenosse/flutter_emoji_feedback/blob/main/demo.gif" style="border-radius: 15px;"/>
+<img src="https://github.com/stevenosse/flutter_emoji_feedback/blob/main/demo.gif?raw=true" style="border-radius: 15px;"/>
 </div>
 
 ## 📺 What's new?
