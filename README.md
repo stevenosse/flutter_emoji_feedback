@@ -5,7 +5,7 @@
 A fully customizable widget to receive feedback from your users. Useful to get  the user's mood, evaluate their experience, and more!
 
 <div align="center">
-<img src="./msedge_d8jeGIRkrm.gif" style="border-radius: 15px;"/>
+<img src="https://github.com/stevenosse/flutter_emoji_feedback/blob/main/demo.gif" style="border-radius: 15px;"/>
 </div>
 
 ## 📺 What's new?
@@ -141,10 +141,10 @@ Contributions are what make the open source community such an amazing place to l
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 Contact
+## 📄 Contributors
 
-- Twitter : [@nossesteve](https://twitter.com/nossesteve)
-- GitHub : [@stevenosse](https://github.com/stevenosse)
+- [@stevenosse](https://github.com/stevenosse)
+- [@Turtlepaw](https://github.com/Turtlepaw)
 
 ## 📄 Acknowledgments
 
@@ -158,3 +158,10 @@ This project uses [Animated Noto Emoji](https://github.com/googlefonts/noto-emoj
 © Google LLC. Licensed under CC BY 4.0.
 
 <img src="./assets/noto_awesome.svg" width="50"/> <img src="./assets/noto_good.svg" width="50"/> <img src="./assets/noto_bad.svg" width="50"/> <img src="./assets/noto_terrible.svg" width="50"/>
+
+## Sponsor
+If you find this project useful, you can [sponsor me](https://github.com/sponsors/stevenosse). 
+
+Or you can
+
+<a href="https://www.buymeacoffee.com/iamsnosse" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>

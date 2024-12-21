@@ -1,8 +1,5 @@
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
 import 'package:flutter_emoji_feedback/gen/assets.gen.dart';
-import 'package:flutter_emoji_feedback/src/models/preset.dart';
-
-import 'models/emoji_model.dart';
 
 // Classic emoji preset
 const classicEmojiPreset = StaticEmojiPreset([

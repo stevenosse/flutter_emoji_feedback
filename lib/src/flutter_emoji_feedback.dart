@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
 import 'package:flutter_emoji_feedback/src/emoji.dart';
 import 'package:flutter_emoji_feedback/src/models/base.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 typedef EmojiBuilder = Widget Function(int, EmojiModel, bool);
 
