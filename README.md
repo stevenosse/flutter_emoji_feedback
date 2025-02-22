@@ -2,18 +2,15 @@
 [![pub package](https://img.shields.io/pub/v/flutter_emoji_feedback.svg)](https://pub.dartlang.org/packages/flutter_emoji_feedback)
 [![GitHub CI](https://github.com/stevenosse/flutter_emoji_feedback/actions/workflows/test.yml/badge.svg)](https://github.com/stevenosse/flutter_emoji_feedback/actions)
 
-A fully customizable widget to receive feedback from your users. Can be used to get user's mood, evaluate experience, and more!
+A fully customizable widget to receive feedback from your users. Useful to get  the user's mood, evaluate their experience, and more!
 
 <div align="center">
-<img src="./msedge_d8jeGIRkrm.gif" style="border-radius: 15px;"/>
+<img src="https://github.com/stevenosse/flutter_emoji_feedback/blob/main/demo.gif?raw=true" style="border-radius: 15px;"/>
 </div>
 
 ## 📺 What's new?
-You can now use animated lottie files (json only) for emoji presets, or the provided `notoAnimatedEmojis` preset.
+You can now use animated lottie files (json files only) for emoji presets, or the provided [`notoAnimatedEmojis`](https://googlefonts.github.io/noto-emoji-animation/) preset. (see [#3](https://github.com/stevenosse/flutter_emoji_feedback/pull/3))
 
-### ⚠️ Breaking changes
-- `rating` is now no longer needed, the package handles that internally. If you need to set an intial rating, see [Parameters](#parameters).
-- Presets must be defined as either a `StaticEmojiPreset` or a `AnimatedEmojiPreset`, see [Defining Presets](#-defining-presets)
 
 ## 🚀 Getting started
 ### Install from pub
@@ -24,7 +21,7 @@ flutter pub add flutter_emoji_feedback
 
 ## 📔 Usage 
 
-Import flutter_emoji_feedback:
+Import `flutter_emoji_feedback`:
 
 ```dart
 import 'package:flutter_emoji_feedback/flutter_emoji_feedback.dart';
@@ -141,10 +138,10 @@ Contributions are what make the open source community such an amazing place to l
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 Contact
+## 📄 Contributors
 
-- Twitter : [@nossesteve](https://twitter.com/nossesteve)
-- GitHub : [@stevenosse](https://github.com/stevenosse)
+- [@stevenosse](https://github.com/stevenosse)
+- [@Turtlepaw](https://github.com/Turtlepaw)
 
 ## 📄 Acknowledgments
 
@@ -157,7 +154,11 @@ This project uses [Animated Noto Emoji](https://github.com/googlefonts/noto-emoj
 
 © Google LLC. Licensed under CC BY 4.0.
 
-<img src="./assets/noto_awesome.svg" width="50"/>
-<img src="./assets/noto_good.svg" width="50"/>
-<img src="./assets/noto_bad.svg" width="50"/>
-<img src="./assets/noto_terrible.svg" width="50"/>
+<img src="https://github.com/stevenosse/flutter_emoji_feedback/blob/main/assets/noto_awesome.svg?raw=true" width="50"/> <img src="https://github.com/stevenosse/flutter_emoji_feedback/blob/main/assets/noto_good.svg?raw=true" width="50"/> <img src="https://github.com/stevenosse/flutter_emoji_feedback/blob/main/assets/noto_neutral.svg?raw=true" width="50"/> <img src="https://github.com/stevenosse/flutter_emoji_feedback/blob/main/assets/noto_bad.svg?raw=true" width="50"/> <img src="https://github.com/stevenosse/flutter_emoji_feedback/blob/main/assets/noto_terrible.svg?raw=true" width="50"/>
+
+## Sponsor
+If you find this project useful, you can [sponsor me](https://github.com/sponsors/stevenosse). 
+
+Or you can
+
+<a href="https://www.buymeacoffee.com/iamsnosse" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>

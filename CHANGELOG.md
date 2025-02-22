@@ -1,3 +1,22 @@
+## 1.0.3
+- Update docs
+
+## 1.0.2
+- Update docs
+
+## 1.0.1
+- Update docs
+
+## 1.0.0
+### Breaking changes
+- `rating` is now no longer needed, the package handles that internally. If you need to set an intial rating, see [Parameters](https://github.com/stevenosse/flutter_emoji_feedback/?tab=readme-ov-file#parameters).
+- Presets must be defined as either a `StaticEmojiPreset` or a `AnimatedEmojiPreset`, see [Defining Presets](https://github.com/stevenosse/flutter_emoji_feedback/?tab=readme-ov-file#-defining-presets)
+
+### New features
+- Animated emoji presets using Lottie files are now supported
+- Add `onChangeWaitForAnimation` property to wait for the emoji's animation to complete before calling `onChanged`
+- Add `tapScale` property to set the scale for when the user holds down the emoji
+
 ## 0.4.1
 - Add tests
 
