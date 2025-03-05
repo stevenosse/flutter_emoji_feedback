@@ -160,10 +160,6 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
     }
 
     widget.onChanged?.call(rating);
-
-    if (widget.enableFeedback) {
-      HapticFeedback.lightImpact();
-    }
   }
 
   @override
@@ -205,6 +201,10 @@ class _EmojiFeedbackState extends State<EmojiFeedback> {
                       setState(() {
                         rating = index + widget.minRating;
                       });
+
+                      if (widget.enableFeedback) {
+                        HapticFeedback.lightImpact();
+                      }
                     },
                   ))
               .toList(),
